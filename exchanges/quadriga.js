@@ -1,9 +1,9 @@
-var QuadrigaCX = require('quadrigacx');
-var moment = require('moment');
-var util = require('../core/util');
-var _ = require('lodash');
-var log = require('../core/log');
+const QuadrigaCX = require('quadrigacx');
+const moment = require('moment');
+const _ = require('lodash');
 
+const util = require('../core/util');
+const log = require('../core/log');
 
 var Trader = function(config) {
   _.bindAll(this);
