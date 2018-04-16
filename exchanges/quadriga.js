@@ -158,11 +158,16 @@ Trader.prototype.roundAmount = function(amount) {
 
 Trader.prototype.addOrder = function(tradeType, amount, price, callback) {
   var args = _.toArray(arguments);
-
+  var self = this;
   amount = this.roundAmount(amount);
   log.debug(tradeType.toUpperCase(), amount, this.asset, '@', price, this.currency);
 
   var set = function(err, data) {
+    if (err && tradeType === 'buy' && amount*price < 1.00) {
+      var errorMsg = `${self.name}: cannot ${tradeType} ${self.asset} with only ${amount*price}${self.currency}, order amount too low.`;
+      log.error(errorMsg);
+      return callback(Errors.AbortError(errorMsg));
+    }
 
     if (data && data.error) return this.retry(this.addOrder, 'unable to place order', args, data.error);
     if (err) return this.retry(this.addOrder, 'unable to place order', args, err);
