@@ -13,14 +13,18 @@ var Trader = function(config) {
     this.key = config.key;
     this.secret = config.secret;
     this.clientId = config.username;
-    this.asset = config.asset;
-    this.currency = config.currency;
+    this.asset = config.asset.toUpperCase();
+    this.currency = config.currency.toUpperCase();
   }
-    
-  this.pair = this.asset.toLowerCase() + '_' + this.currency.toLowerCase(); 
+  
   this.name = 'quadriga';
   this.since = null;
 
+  this.market = _.find(Trader.getCapabilities().markets, (market) => {
+    return market.pair[0] === this.currency && market.pair[1] === this.asset
+  });
+  this.pair = this.market.book;
+  
   this.quadriga = new QuadrigaCX(
     this.clientId ? this.clientId : "1",
     this.key ? this.key : "",
