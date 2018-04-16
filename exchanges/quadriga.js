@@ -4,6 +4,7 @@ const _ = require('lodash');
 
 const util = require('../core/util');
 const log = require('../core/log');
+const marketData = require('./quadriga-markets.json');
 
 var Trader = function(config) {
   _.bindAll(this);
@@ -231,16 +232,9 @@ Trader.getCapabilities = function () {
   return {
     name: 'Quadriga',
     slug: 'quadriga',
-    currencies: ['CAD', 'USD', 'BTC'],
-    assets: ['BTC', 'ETH', 'LTC', 'BCH'],
-    markets: [
-      { pair: ['BTC', 'ETH'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-      { pair: ['CAD', 'ETH'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-      { pair: ['USD', 'BTC'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-      { pair: ['CAD', 'BTC'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-      { pair: ['CAD', 'LTC'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-      { pair: ['CAD', 'BCH'], minimalOrder: { amount: 0.00001, unit: 'asset' }, precision: 8 },
-    ],
+    currencies: marketData.currencies,
+    assets: marketData.assets,
+    markets: marketData.markets,
     requires: ['key', 'secret', 'username'],
     providesHistory: false,
     tid: 'tid',
