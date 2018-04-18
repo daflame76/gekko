@@ -97,6 +97,7 @@ Trader.prototype.getPortfolio = function(callback) {
 
     if (data && data.error) return this.retry(this.getPortfolio, 'unable to get balance', args, data.error);
     if (err) return this.retry(this.getPortfolio, 'unable to get balance', args, err);
+    log.debug(`${this.name}: entering "setBalance" callback after Quadrga-api call, data:`, data);
 
     var assetAmount = parseFloat( data[this.asset.toLowerCase() + '_available'] );
     var currencyAmount = parseFloat( data[this.currency.toLowerCase() + '_available'] );
